@@ -38,6 +38,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button feedButton;
     [SerializeField] private GameObject levelUpAvailableChild;
 
+    [Header("Dev Reward Buttons")]
+    [SerializeField] private GameObject devRewardZChild;
+    [SerializeField] private GameObject devRewardXChild;
+    [SerializeField] private GameObject devRewardCChild;
+
     [Header("Currency UI (TMP)")]
     [SerializeField] private TMP_Text eggCountText;
     [SerializeField] private TMP_Text goldenEggCountText;
@@ -51,6 +56,7 @@ public class GameManager : MonoBehaviour
     public int GoldenEggCount => goldenEggCount;
     public CharacterGrade CurrentGrade => currentGrade;
     public int CurrentGradeExp => currentGradeExp;
+    public bool IsHatEquipped => isHatEquipped;
 
     private void Awake()
     {
@@ -70,6 +76,9 @@ public class GameManager : MonoBehaviour
         RefreshLevelUpState();
         RefreshCurrencyTexts();
         RefreshExpProgressText();
+        SetDevRewardChildActive(devRewardZChild, false);
+        SetDevRewardChildActive(devRewardXChild, false);
+        SetDevRewardChildActive(devRewardCChild, false);
     }
 
 
@@ -82,23 +91,64 @@ public class GameManager : MonoBehaviour
 
         if (Keyboard.current.qKey.wasPressedThisFrame)
         {
-            AddEggs(5);
+            AddEggs(10);
         }
 
         if (Keyboard.current.wKey.wasPressedThisFrame)
         {
-            AddGoldenEggs(5);
+            AddGoldenEggs(10);
+        }
+
+        if (Keyboard.current.zKey.wasPressedThisFrame)
+        {
+            SetDevRewardChildActive(devRewardZChild, true);
+        }
+
+        if (Keyboard.current.xKey.wasPressedThisFrame)
+        {
+            SetDevRewardChildActive(devRewardXChild, true);
+        }
+
+        if (Keyboard.current.cKey.wasPressedThisFrame)
+        {
+            SetDevRewardChildActive(devRewardCChild, true);
         }
     }
 
     public void OnClickAddEggs()
     {
-        AddEggs(5);
+        AddEggs(10);
     }
 
     public void OnClickAddGoldenEggs()
     {
-        AddGoldenEggs(5);
+        AddGoldenEggs(10);
+    }
+
+    public void OnClickClaimDevRewardZ()
+    {
+        ClaimDevReward(devRewardZChild);
+    }
+
+    public void OnClickClaimDevRewardX()
+    {
+        ClaimDevReward(devRewardXChild);
+    }
+
+    public void OnClickClaimDevRewardC()
+    {
+        ClaimDevReward(devRewardCChild);
+    }
+
+    private void ClaimDevReward(GameObject rewardChild)
+    {
+        if (rewardChild == null || !rewardChild.activeSelf)
+        {
+            return;
+        }
+
+        AddEggs(10);
+        rewardChild.SetActive(false);
     }
 
     public void AddEggs(int amount)
@@ -333,6 +383,14 @@ public class GameManager : MonoBehaviour
         if (feedButton != null)
         {
             feedButton.interactable = canFeed;
+        }
+    }
+
+    private static void SetDevRewardChildActive(GameObject targetChild, bool active)
+    {
+        if (targetChild != null)
+        {
+            targetChild.SetActive(active);
         }
     }
 

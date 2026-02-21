@@ -81,7 +81,7 @@ public class ShopManager : MonoBehaviour
 
         if (!isHatPurchased)
         {
-            hatStatusText.text = $"{hatPriceGoldenEgg}";
+            hatStatusText.text = $"밀집모자 {hatPriceGoldenEgg}G";
             return;
         }
 
