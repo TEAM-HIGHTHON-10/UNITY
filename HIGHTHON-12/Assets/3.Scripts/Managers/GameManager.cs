@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
     {
         if (I != null)
         {
-            Destroy(gameObject); return; 
+            Destroy(gameObject);
+            return; 
         }
         I = this;
 
